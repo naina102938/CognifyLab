@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CognifyLab — AI-Powered Learning</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     ONBOARDING SCREEN
+══════════════════════════════════════════ -->
+<div id="screen-onboarding" class="screen active">
+  <div class="orb orb-1" aria-hidden="true"></div>
+  <div class="orb orb-2" aria-hidden="true"></div>
+
+  <div class="onboard-box" role="main">
+    <div class="logo" aria-label="CognifyLab">
+      <div class="logo-mark" aria-hidden="true">
+        <svg width="13" height="13" viewBox="0 0 12 12" fill="none">
+          <circle cx="6" cy="6" r="2.5" fill="white"/>
+          <circle cx="6" cy="6" r="5" stroke="white" stroke-width="1" fill="none" stroke-dasharray="2 2"/>
+        </svg>
+      </div>
+      CognifyLab
+    </div>
+
+    <div class="prog-wrap" role="progressbar" aria-label="Onboarding progress">
+      <div class="prog-fill" id="ob-prog" style="width:20%"></div>
+    </div>
+
+    <div id="ob-content"></div>
+
+    <button class="btn-primary" id="ob-next" type="button">Continue</button>
+    <p class="step-counter" id="ob-step" aria-live="polite">Step 1 of 5</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     MAIN APP SCREEN
+══════════════════════════════════════════ -->
+<div id="screen-app" class="screen" role="application">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar" role="navigation" aria-label="Main navigation">
+    <div class="sb-logo" aria-label="CognifyLab">
+      <div class="sb-mark" aria-hidden="true">
+        <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
+          <circle cx="6" cy="6" r="2.5" fill="white"/>
+          <circle cx="6" cy="6" r="5" stroke="white" stroke-width="1" fill="none" stroke-dasharray="2 2"/>
+        </svg>
+      </div>
+      CognifyLab
+    </div>
+
+    <div class="user-badge">
+      <div class="avatar" id="sb-av" aria-label="User avatar">?</div>
+      <div class="user-info">
+        <div class="u-name" id="sb-name">—</div>
+        <div class="u-level">Level 4 — Learner</div>
+      </div>
+      <div class="streak-badge" id="streak-badge">7-day streak</div>
+    </div>
+
+    <div class="xp-row">
+      <span>XP</span>
+      <div class="xp-bar" role="progressbar" aria-label="XP progress">
+        <div class="xp-fill" style="width:62%"></div>
+      </div>
+      <span>620/1000</span>
+    </div>
+
+    <nav>
+      <div class="nav-sec" aria-hidden="true">Workspace</div>
+      <div class="nav-item active" data-panel="dashboard" role="button" tabindex="0" aria-label="Dashboard">
+        <div class="nav-icon" aria-hidden="true">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
+            <rect x="1" y="1" width="6" height="6" rx="1.5" fill="#94a3b8"/>
+            <rect x="9" y="1" width="6" height="6" rx="1.5" fill="#94a3b8"/>
+            <rect x="1" y="9" width="6" height="6" rx="1.5" fill="#94a3b8"/>
+            <rect x="9" y="9" width="6" height="6" rx="1.5" fill="#94a3b8"/>
+          </svg>
+        </div>
+        Dashboard
+      </div>
+      <div class="nav-item" data-panel="study" role="button" tabindex="0" aria-label="Study Session">
+        <div class="nav-icon" aria-hidden="true">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
+            <path d="M3 2h7l3 3v9H3V2z" stroke="#94a3b8" stroke-width="1.3" fill="none"/>
+            <path d="M10 2v3h3" stroke="#94a3b8" stroke-width="1.3"/>
+            <path d="M5 7h6M5 9.5h4" stroke="#94a3b8" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        Study Session
+        <span class="nav-badge" aria-label="3 pending questions">3</span>
+      </div>
+      <div class="nav-item" data-panel="visualize" role="button" tabindex="0" aria-label="Insights">
+        <div class="nav-icon" aria-hidden="true">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
+            <path d="M2 12L5 8 L8 10 L11 5 L14 7" stroke="#94a3b8" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <circle cx="14" cy="7" r="1.2" fill="#94a3b8"/>
+          </svg>
+        </div>
+        Insights
+      </div>
+      <div class="nav-sec" aria-hidden="true">Account</div>
+      <div class="nav-item" data-panel="profile" role="button" tabindex="0" aria-label="Profile">
+        <div class="nav-icon" aria-hidden="true">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
+            <circle cx="8" cy="5" r="3" stroke="#94a3b8" stroke-width="1.3" fill="none"/>
+            <path d="M2 14c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="#94a3b8" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+          </svg>
+        </div>
+        Profile
+      </div>
+    </nav>
+
+    <div class="sb-footer">
+      <span id="connection-status" class="conn-status conn-status--err" title="Ollama status">Checking AI…</span>
+      <div class="nav-item" id="btn-restart" role="button" tabindex="0" style="margin-top:0.5rem;">
+        <div class="nav-icon" aria-hidden="true">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
+            <path d="M13 8A5 5 0 1 1 8 3" stroke="#94a3b8" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+            <path d="M13 3v5h-5" stroke="#94a3b8" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </div>
+        Restart Demo
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── MAIN CONTENT ── -->
+  <div class="main">
+    <header class="topbar">
+      <h1 class="topbar-title" id="tp-title">Dashboard</h1>
+      <time id="tp-date" style="font-size:0.8rem;color:var(--text3)"></time>
+    </header>
+
+    <!-- ════ DASHBOARD PANEL ════ -->
+    <section id="panel-dashboard" class="content-panel active" aria-label="Dashboard">
+
+      <div class="stats-grid">
+        <div class="stat-card ci">
+          <div class="s-label">Total Sessions</div>
+          <div class="s-val" id="stat-sessions">0</div>
+          <div class="s-delta" id="stat-sessions-delta"></div>
+        </div>
+        <div class="stat-card ce">
+          <div class="s-label">Avg Accuracy</div>
+          <div class="s-val" id="stat-accuracy">0%</div>
+          <div class="s-delta up" id="stat-accuracy-delta"></div>
+        </div>
+        <div class="stat-card ca">
+          <div class="s-label">Day Streak</div>
+          <div class="s-val" id="stat-streak">0</div>
+          <div class="s-delta" id="stat-streak-delta"></div>
+        </div>
+        <div class="stat-card cr">
+          <div class="s-label">Overconfidence</div>
+          <div class="s-val" id="stat-overconf">0%</div>
+          <div class="s-delta dn" id="stat-overconf-delta"></div>
+        </div>
+      </div>
+
+      <div class="sec-title">Quick Actions</div>
+      <div class="quick-actions">
+        <div class="action-card" id="action-study" role="button" tabindex="0" aria-label="Start new study session">
+          <div class="action-icon ai-i" aria-hidden="true">
+            <svg width="17" height="17" viewBox="0 0 18 18" fill="none">
+              <path d="M3 3h9l3 3v9H3V3z" stroke="#a5b4fc" stroke-width="1.4" fill="none"/>
+              <path d="M12 3v3h3" stroke="#a5b4fc" stroke-width="1.4"/>
+              <path d="M5.5 8.5h7M5.5 11h5" stroke="#a5b4fc" stroke-width="1.3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="action-title">New Study Session</div>
+          <div class="action-desc">Paste notes, generate AI recall questions, and test your knowledge.</div>
+        </div>
+        <div class="action-card" id="action-insights" role="button" tabindex="0" aria-label="View insights">
+          <div class="action-icon ai-e" aria-hidden="true">
+            <svg width="17" height="17" viewBox="0 0 18 18" fill="none">
+              <path d="M2 13L6 9 L9 11 L12 6 L16 8" stroke="#34d399" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              <circle cx="16" cy="8" r="1.3" fill="#34d399"/>
+            </svg>
+          </div>
+          <div class="action-title">Review Insights</div>
+          <div class="action-desc">Visualise confidence gaps and metacognitive accuracy over time.</div>
+        </div>
+        <div class="action-card" id="action-challenge" role="button" tabindex="0" aria-label="Challenge mode coming soon">
+          <div class="action-icon ai-a" aria-hidden="true">
+            <svg width="17" height="17" viewBox="0 0 18 18" fill="none">
+              <polygon points="9,2 11,7 17,7 12,11 14,16 9,13 4,16 6,11 1,7 7,7" stroke="#f59e0b" stroke-width="1.4" fill="none" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="action-title">Challenge Mode</div>
+          <div class="action-desc">Adaptive difficulty targeting your weakest knowledge areas.</div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="gc">
+          <div class="c-header">
+            <div class="c-title">Recent Sessions</div>
+          </div>
+          <div id="recent-sessions-list">
+            <div class="sess-row">
+              <span class="sname" style="color:var(--text3)">No sessions yet. Start studying!</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="gc">
+          <div class="c-header">
+            <div class="c-title">Confidence Gap</div>
+            <span class="badge br" id="gap-summary"></span>
+          </div>
+          <div style="display:flex;gap:16px;font-size:0.72rem;color:var(--text3);margin-bottom:0.75rem;align-items:center;">
+            <span style="display:flex;align-items:center;gap:5px;">
+              <span style="width:14px;height:4px;background:rgba(79,70,229,0.55);border-radius:2px;display:inline-block;" aria-hidden="true"></span>Confidence
+            </span>
+            <span style="display:flex;align-items:center;gap:5px;">
+              <span style="width:14px;height:4px;background:var(--emerald);border-radius:2px;display:inline-block;" aria-hidden="true"></span>Actual
+            </span>
+          </div>
+          <div class="gap-chart" id="gap-chart" aria-label="Confidence gap chart"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════ STUDY PANEL ════ -->
+    <section id="panel-study" class="content-panel" aria-label="Study session">
+      <div class="study-layout">
+        <div>
+          <!-- Notes Input -->
+          <div class="notes-area">
+            <div class="ntoolbar">
+              <div class="ntoolbar-title">Study Notes</div>
+              <button class="tool-btn" id="btn-clear" type="button">Clear</button>
+              <button class="tool-btn" id="btn-sample" type="button">Load Sample</button>
+              <button class="tool-btn primary" id="btn-generate" type="button">Generate Questions</button>
+            </div>
+            <textarea
+              class="notes-ta"
+              id="notes-input"
+              placeholder="Paste or type your study notes here.&#10;&#10;Click 'Load Sample' to try a neuroscience demo."
+              aria-label="Study notes input"
+            ></textarea>
+          </div>
+
+          <!-- Answer Area (shown when a question is selected) -->
+          <div class="answer-area" id="answer-area" style="display:none;" aria-live="polite">
+            <span class="a-qtype" id="a-qtype">Recall Question</span>
+            <p class="a-q" id="a-qtext"></p>
+
+            <textarea
+              class="a-ta"
+              id="a-input"
+              placeholder="Write your answer in your own words…"
+              aria-label="Your answer"
+            ></textarea>
+
+            <div class="conf-sec">
+              <div class="conf-lbl">How confident are you in this answer?</div>
+              <div class="conf-meter" role="group" aria-label="Confidence level">
+                <button class="conf-btn" type="button" data-level="1" aria-pressed="false">Not confident</button>
+                <button class="conf-btn" type="button" data-level="2" aria-pressed="false">Somewhat sure</button>
+                <button class="conf-btn" type="button" data-level="3" aria-pressed="false">Very confident</button>
+              </div>
+            </div>
+
+            <div class="submit-row">
+              <button class="tool-btn" id="btn-skip" type="button">Skip</button>
+              <button class="tool-btn primary" id="btn-evaluate" type="button" style="flex:1;">Evaluate Answer</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Generated Questions Column -->
+        <div>
+          <div class="qpanel">
+            <div class="qph">
+              <div class="qph-title">Generated Questions</div>
+              <div class="qcount" id="qcount" aria-live="polite">0 questions</div>
+            </div>
+            <div class="qlist" id="qlist" role="list" aria-label="Study questions">
+              <div class="qlist-empty">Questions will appear here after you paste notes and click Generate.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════ INSIGHTS PANEL ════ -->
+    <section id="panel-visualize" class="content-panel" aria-label="Insights and analytics">
+
+      <div class="viz-grid">
+        <div class="gc">
+          <div class="sec-title">Metacognitive Accuracy</div>
+          <div class="arc-cont" aria-label="71% metacognitive accuracy">
+            <svg style="width:100px;height:60px;overflow:visible" viewBox="0 0 120 70" role="img">
+              <title>Metacognitive accuracy arc</title>
+              <path d="M 10 65 A 50 50 0 0 1 110 65" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="8" stroke-linecap="round"/>
+              <path d="M 10 65 A 50 50 0 0 1 110 65" fill="none" stroke="url(#aG)" stroke-width="8" stroke-linecap="round" stroke-dasharray="157" stroke-dashoffset="45"/>
+              <defs>
+                <linearGradient id="aG" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#4F46E5"/>
+                  <stop offset="100%" stop-color="#10B981"/>
+                </linearGradient>
+              </defs>
+              <text x="60" y="58" text-anchor="middle" fill="#F9FAFB" font-size="18" font-weight="700" font-family="Plus Jakarta Sans, sans-serif">71%</text>
+              <text x="60" y="70" text-anchor="middle" fill="#475569" font-size="8" font-family="Plus Jakarta Sans, sans-serif">accuracy</text>
+            </svg>
+          </div>
+          <p style="font-size:0.78rem;color:var(--text2);text-align:center;line-height:1.55;">Self-assessment aligns with actual performance 71% of the time.</p>
+        </div>
+
+        <div class="gc">
+          <div class="sec-title">Confidence Distribution</div>
+          <div style="margin-top:0.75rem;">
+            <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:var(--text3);margin-bottom:4px;"><span>Underconfident</span><span>32%</span></div>
+            <div style="height:5px;background:rgba(255,255,255,0.06);border-radius:99px;overflow:hidden;margin-bottom:10px;"><div style="width:32%;height:100%;background:var(--indigo-ll);border-radius:99px;"></div></div>
+            <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:var(--text3);margin-bottom:4px;"><span>Calibrated</span><span>56%</span></div>
+            <div style="height:5px;background:rgba(255,255,255,0.06);border-radius:99px;overflow:hidden;margin-bottom:10px;"><div style="width:56%;height:100%;background:var(--emerald);border-radius:99px;"></div></div>
+            <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:var(--text3);margin-bottom:4px;"><span>Overconfident</span><span>12%</span></div>
+            <div style="height:5px;background:rgba(255,255,255,0.06);border-radius:99px;overflow:hidden;"><div style="width:12%;height:100%;background:var(--rose);border-radius:99px;"></div></div>
+          </div>
+        </div>
+
+        <div class="gc">
+          <div class="sec-title">Weekly Progress</div>
+          <svg class="mini-chart" viewBox="0 0 200 66" preserveAspectRatio="none" role="img" aria-label="Weekly progress chart">
+            <defs>
+              <linearGradient id="lG" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="rgba(79,70,229,0.32)"/>
+                <stop offset="100%" stop-color="rgba(79,70,229,0)"/>
+              </linearGradient>
+            </defs>
+            <path d="M0 60 L28 45 L57 50 L85 35 L113 28 L142 20 L170 15 L200 10 L200 66 L0 66 Z" fill="url(#lG)"/>
+            <path d="M0 60 L28 45 L57 50 L85 35 L113 28 L142 20 L170 15 L200 10" fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="200" cy="10" r="3" fill="#10B981"/>
+          </svg>
+          <p style="font-size:0.78rem;color:var(--text2);margin-top:6px;">Accuracy trending <span style="color:var(--emerald);font-weight:700;">+18%</span> this month.</p>
+        </div>
+      </div>
+
+      <div class="sec-title">Topic Performance Breakdown</div>
+      <div class="gc" style="margin-bottom:1.5rem;">
+        <table class="topic-table" aria-label="Topic performance table">
+          <thead>
+            <tr>
+              <th>Topic / Type</th>
+              <th>Questions</th>
+              <th>Avg Score</th>
+            </tr>
+          </thead>
+          <tbody id="topic-tbody">
+            <tr><td colspan="3" style="color:var(--text3);font-size:0.82rem;">Complete study sessions to see topic data here.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="sec-title">AI Personalisation</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+        <div class="gc">
+          <div style="font-size:0.7rem;color:var(--text3);margin-bottom:5px;text-transform:uppercase;letter-spacing:0.1em;">Question Style</div>
+          <div style="font-size:0.95rem;font-weight:700;color:var(--indigo-ll);">Applied / Scenario</div>
+          <div style="font-size:0.8rem;color:var(--text2);margin-top:6px;line-height:1.55;">Switched from pure recall — you perform better with context-anchored questions.</div>
+        </div>
+        <div class="gc">
+          <div style="font-size:0.7rem;color:var(--text3);margin-bottom:5px;text-transform:uppercase;letter-spacing:0.1em;">Feedback Tone</div>
+          <div style="font-size:0.95rem;font-weight:700;color:var(--emerald-l);">Challenging</div>
+          <div style="font-size:0.8rem;color:var(--text2);margin-top:6px;line-height:1.55;">Overconfidence detected in Chemistry — raising the difficulty bar.</div>
+        </div>
+        <div class="gc">
+          <div style="font-size:0.7rem;color:var(--text3);margin-bottom:5px;text-transform:uppercase;letter-spacing:0.1em;">Session Pacing</div>
+          <div style="font-size:0.95rem;font-weight:700;color:var(--amber);">Moderate — 20 min</div>
+          <div style="font-size:0.8rem;color:var(--text2);margin-top:6px;line-height:1.55;">Matched to your preference for focused short bursts.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════ PROFILE PANEL ════ -->
+    <section id="panel-profile" class="content-panel" aria-label="User profile">
+      <div class="prof-grid">
+        <div class="prof-bio">
+          <div class="prof-av" id="prof-av" aria-label="Profile avatar">?</div>
+          <div>
+            <div class="prof-name" id="prof-name">Learner</div>
+            <div class="prof-since">Member since April 2025 &mdash; <span style="color:var(--indigo-ll);">Level 4 Learner</span></div>
+            <div class="prof-tags" id="prof-tags"></div>
+          </div>
+        </div>
+
+        <div class="pref-card">
+          <div class="pref-title">Study Preferences</div>
+          <div class="pref-row"><div class="pref-key">Session length</div><div class="pref-val" id="pf-session">—</div></div>
+          <div class="pref-row"><div class="pref-key">Goal</div><div class="pref-val" id="pf-goal">—</div></div>
+          <div class="pref-row"><div class="pref-key">Focus style</div><div class="pref-val" id="pf-focus">—</div></div>
+          <div class="pref-row"><div class="pref-key">Weak subject</div><div class="pref-val" id="pf-weak">—</div></div>
+        </div>
+
+        <div class="pref-card">
+          <div class="pref-title">Notifications and UI</div>
+          <div class="pref-row"><div class="pref-key">Daily reminder</div><div><input type="checkbox" class="tgl-in" id="t1" checked><label class="tgl-lbl" for="t1" aria-label="Toggle daily reminder"></label></div></div>
+          <div class="pref-row"><div class="pref-key">Streak alerts</div><div><input type="checkbox" class="tgl-in" id="t2" checked><label class="tgl-lbl" for="t2" aria-label="Toggle streak alerts"></label></div></div>
+          <div class="pref-row"><div class="pref-key">Micro-animations</div><div><input type="checkbox" class="tgl-in" id="t3" checked><label class="tgl-lbl" for="t3" aria-label="Toggle micro-animations"></label></div></div>
+          <div class="pref-row"><div class="pref-key">Soft feedback tone</div><div><input type="checkbox" class="tgl-in" id="t4"><label class="tgl-lbl" for="t4" aria-label="Toggle soft feedback tone"></label></div></div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /main -->
+</div><!-- /screen-app -->
+
+<!-- ══════════════════════════════════════════
+     EVALUATION MODAL
+══════════════════════════════════════════ -->
+<div class="modal-overlay" id="eval-modal" role="dialog" aria-modal="true" aria-label="Answer evaluation">
+  <div class="modal-box">
+    <div class="eval-hd">
+      <div class="score-ring" aria-hidden="true">
+        <svg viewBox="0 0 64 64">
+          <circle class="ring-bg" cx="32" cy="32" r="26"/>
+          <circle class="ring-fill" id="ring-fill" cx="32" cy="32" r="26"
+                  stroke="var(--emerald)" stroke-dasharray="163" stroke-dashoffset="163"/>
+        </svg>
+        <div class="score-num" id="eval-score" aria-live="polite">—</div>
+      </div>
+      <div>
+        <div class="eval-title" id="eval-title">Evaluating…</div>
+        <div class="eval-sub" id="eval-sub"></div>
+      </div>
+    </div>
+
+    <p class="eval-body" id="eval-body"></p>
+    <div id="eval-gap" aria-live="polite"></div>
+    <div id="eval-detail"></div>
+
+    <div class="modal-actions">
+      <button class="btn-secondary" id="btn-close-eval" type="button">Close</button>
+      <button class="btn-primary" id="btn-next-q" type="button" style="flex:2;">Next Question</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div class="toast-wrap" id="toast-wrap" aria-live="assertive" aria-atomic="true"></div>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
